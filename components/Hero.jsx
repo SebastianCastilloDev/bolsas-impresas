@@ -3,8 +3,12 @@ import styles from './Hero.module.css';
 export default function Hero() {
     return (
         <section
-            className="bg-cover bg-center flex flex-col justify-center items-center text-center"
-            style={{ backgroundImage: `url('/images/hero.jpg')`, height: '80vh' }}
+            className="w-full bg-cover bg-center flex flex-col justify-center items-center text-center"
+            style={{
+                backgroundImage: `url('/images/hero.jpg')`,
+                minHeight: '50vh', // Altura mínima del Hero
+                maxHeight: '70vh'  // Altura máxima del Hero
+            }}
         >
             {/* Animación de entrada */}
             <div className={styles.fadeIn}>

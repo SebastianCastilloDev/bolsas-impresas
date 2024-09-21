@@ -7,7 +7,17 @@ const config = {
     extensions: ['.js', '.jsx', '.css', '.json'], // Extensiones a incluir
     outputFile: path.join(process.cwd(), 'consolidado.txt'), // Archivo de salida
     ignoreDirs: ['node_modules', '.git', '.next'], // Directorios a ignorar
-    excludedFiles: ['consolidado.txt', 'package-lock.json', '.eslintrc.json', 'postcss.config.js', 'tailwind.config.js', 'jsconfig.json', 'extraer_archivos.js'], // Archivos a ignorar
+    excludedFiles: [
+        'consolidado.txt', 
+        'package-lock.json', 
+        '.eslintrc.json', 
+        'postcss.config.js', 
+        'tailwind.config.js', 
+        'jsconfig.json', 
+        'extraer_archivos.js',
+        'globals.css',
+        'next.config.js',
+    ] // Archivos a ignorar
 };
 
 // Función para verificar si un archivo o directorio debe ser ignorado

@@ -1,25 +1,15 @@
 ÍNDICE DE ARCHIVOS:
 
-1. app/globals.css
-2. app/layout.jsx
-3. app/page.jsx
-4. components/ContactForm.jsx
-5. components/Footer.jsx
-6. components/Hero.jsx
-7. components/Hero.module.css
-8. components/Navbar.jsx
-9. components/Products.jsx
-10. next.config.js
-11. package.json
-12. styles/globals.css
+1. app/layout.jsx
+2. app/page.jsx
+3. components/ContactForm.jsx
+4. components/Footer.jsx
+5. components/Hero.jsx
+6. components/Hero.module.css
+7. components/Navbar.jsx
+8. components/Products.jsx
+9. package.json
 
-
-
-// ----- app/globals.css -----
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 
 // ----- app/layout.jsx -----
@@ -41,7 +31,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body>
         <Navbar />
-        <main>{children}</main>
+        <main className='container mx-auto px-4'>{children}</main>
         <Footer />
       </body>
     </html>
@@ -59,8 +49,12 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <Products />
-      <ContactForm />
+      <section id="productos">
+        <Products />
+      </section>
+      <section id="contacto">
+        <ContactForm />
+      </section>
     </div>
   );
 }
@@ -71,14 +65,16 @@ export default function Home() {
 export default function ContactForm() {
     return (
         <section className="py-16 bg-blue-50">
-            <h2 className="text-center text-3xl font-bold mb-8">Contáctanos</h2>
-            <div className="max-w-xl mx-auto">
-                <form className="space-y-4">
-                    <input type="text" placeholder="Nombre" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
-                    <input type="email" placeholder="Correo" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
-                    <textarea placeholder="Mensaje" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
-                    <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">Enviar</button>
-                </form>
+            <div className="container mx-auto px-4">
+                <h2 className="text-center text-3xl font-bold mb-8">Contáctanos</h2>
+                <div className="max-w-xl mx-auto">
+                    <form className="space-y-4">
+                        <input type="text" placeholder="Nombre" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
+                        <input type="email" placeholder="Correo" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
+                        <textarea placeholder="Mensaje" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
+                        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">Enviar</button>
+                    </form>
+                </div>
             </div>
         </section>
     );
@@ -239,34 +235,27 @@ export default function Products() {
 
     return (
         <section className="py-16 bg-gray-100">
-            <h2 className="text-center text-3xl font-bold mb-8">Nuestros Productos</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-                {products.map(product => (
-                    <div key={product.id} className="bg-white rounded-lg shadow-lg p-6">
-                        {/* Usamos el componente Image */}
-                        <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={500}
-                            height={500}
-                            className="rounded-lg"
-                        />
-                        <h3 className="text-xl font-semibold mt-4">{product.name}</h3>
-                        <p className="mt-2 text-gray-600">{product.description}</p>
-                    </div>
-                ))}
+            <div className="container mx-auto px-4">
+                <h2 className="text-center text-3xl font-bold mb-8">Nuestros Productos</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {products.map(product => (
+                        <div key={product.id} className="bg-white rounded-lg shadow-lg p-6">
+                            <Image
+                                src={product.image}
+                                alt={product.name}
+                                width={500}
+                                height={500}
+                                className="rounded-lg"
+                            />
+                            <h3 className="text-xl font-semibold mt-4">{product.name}</h3>
+                            <p className="mt-2 text-gray-600">{product.description}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     );
 }
-
-
-// ----- next.config.js -----
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-module.exports = nextConfig
 
 
 // ----- package.json -----
@@ -294,11 +283,4 @@ module.exports = nextConfig
     "eslint-config-next": "13.5.7"
   }
 }
-
-
-// ----- styles/globals.css -----
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
