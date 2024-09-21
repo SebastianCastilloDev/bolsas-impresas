@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+
 export default function Products() {
     const products = [
         { id: 1, name: 'Bolsa de Papel', description: 'Bolsas ecológicas y reciclables.', image: '/images/bolsaPapel.jpg' },
