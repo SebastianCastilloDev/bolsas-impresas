@@ -1,0 +1,50 @@
+/* Hero.module.css */
+
+
+/* Animación para que el contenido aparezca suavemente */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Animación de rebote para la flecha */
+.bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Estilos para la flecha */
+.arrowDown {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+  border-radius: 50%; /* Círculo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.arrowDown:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* Más visible al pasar el mouse */
+  transform: scale(1.2); /* Aumenta ligeramente el tamaño */
+}

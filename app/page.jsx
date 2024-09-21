@@ -6,8 +6,12 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <Products />
-      <ContactForm />
+      <section id="productos">
+        <Products />
+      </section>
+      <section id="contacto">
+        <ContactForm />
+      </section>
     </div>
   );
 }

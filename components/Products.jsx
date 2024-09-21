@@ -2,9 +2,27 @@ import Image from 'next/image';
 
 export default function Products() {
     const products = [
-        { id: 1, name: 'Bolsa de Papel', description: 'Bolsas ecológicas y reciclables.', image: '/images/bolsaPapel.jpg' },
-        { id: 2, name: 'Bolsa de Algodón', description: 'Resistentes y reutilizables.', image: '/images/bolsaAlgodon.jpg' },
-        { id: 3, name: 'Bolsa de Plástico', description: 'Duraderas y personalizables.', image: '/images/bolsaPlastico.jpg' },
+        {
+            id: 1,
+            name: 'Bolsa de Papel',
+            description: 'Bolsas ecológicas y reciclables.',
+            image: '/images/bolsaPapel.jpg'
+        },
+
+        {
+            id: 2,
+            name: 'Bolsa de Algodón',
+            description: 'Resistentes y reutilizables.',
+            image: '/images/bolsaAlgodon.jpg'
+        },
+
+        {
+            id: 3,
+            name: 'Bolsa de Plástico',
+            description: 'Duraderas y personalizables.',
+            image: '/images/bolsaPlastico.jpg'
+        },
+
     ];
 
     return (

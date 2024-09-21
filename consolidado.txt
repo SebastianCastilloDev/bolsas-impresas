@@ -6,11 +6,12 @@
 4. components/ContactForm.jsx
 5. components/Footer.jsx
 6. components/Hero.jsx
-7. components/Navbar.jsx
-8. components/Products.jsx
-9. next.config.js
-10. package.json
-11. styles/globals.css
+7. components/Hero.module.css
+8. components/Navbar.jsx
+9. components/Products.jsx
+10. next.config.js
+11. package.json
+12. styles/globals.css
 
 
 
@@ -112,16 +113,85 @@ export default function Footer() {
 
 // ----- components/Hero.jsx -----
 
+import styles from './Hero.module.css';
+
 export default function Hero() {
     return (
-        <section className="bg-cover bg-center h-screen flex flex-col justify-center items-center text-center" style={{ backgroundImage: `url('/images/hero.jpg')` }}>
-            <h1 className="text-5xl font-bold text-white">¡Bolsas Impresas Personalizadas!</h1>
-            <p className="mt-4 text-xl text-white">Calidad y estilo para tu marca.</p>
-            <button className="mt-6 bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">
-                Solicitar Presupuesto
-            </button>
+        <section
+            className="bg-cover bg-center flex flex-col justify-center items-center text-center"
+            style={{ backgroundImage: `url('/images/hero.jpg')`, height: '80vh' }}
+        >
+            {/* Animación de entrada */}
+            <div className={styles.fadeIn}>
+                <h1 className="text-5xl font-bold text-white">¡Bolsas Impresas Personalizadas!</h1>
+                <p className="mt-4 text-xl text-white">Calidad y estilo para tu marca.</p>
+                <button className="mt-6 bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">
+                    Solicitar Presupuesto
+                </button>
+            </div>
+
+            {/* Indicador de desplazamiento hacia abajo */}
+            <div className={`absolute bottom-10 ${styles.bounce}`}>
+                <a href="#productos" className={styles.arrowDown}>
+                    <span className="text-white text-3xl">↓</span>
+                </a>
+            </div>
         </section>
     );
+}
+
+
+// ----- components/Hero.module.css -----
+
+/* Hero.module.css */
+
+
+/* Animación para que el contenido aparezca suavemente */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Animación de rebote para la flecha */
+.bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Estilos para la flecha */
+.arrowDown {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+  border-radius: 50%; /* Círculo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.arrowDown:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* Más visible al pasar el mouse */
+  transform: scale(1.2); /* Aumenta ligeramente el tamaño */
 }
 
 
@@ -158,6 +228,8 @@ export default function Navbar() {
 
 // ----- components/Products.jsx -----
 
+import Image from 'next/image';
+
 export default function Products() {
     const products = [
         { id: 1, name: 'Bolsa de Papel', description: 'Bolsas ecológicas y reciclables.', image: '/images/bolsaPapel.jpg' },
@@ -171,7 +243,14 @@ export default function Products() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
                 {products.map(product => (
                     <div key={product.id} className="bg-white rounded-lg shadow-lg p-6">
-                        <img src={product.image} alt={product.name} className="rounded-lg" />
+                        {/* Usamos el componente Image */}
+                        <Image
+                            src={product.image}
+                            alt={product.name}
+                            width={500}
+                            height={500}
+                            className="rounded-lg"
+                        />
                         <h3 className="text-xl font-semibold mt-4">{product.name}</h3>
                         <p className="mt-2 text-gray-600">{product.description}</p>
                     </div>
