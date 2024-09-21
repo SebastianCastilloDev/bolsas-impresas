@@ -1,8 +1,10 @@
+"use_client"
+
 import Hero from '@/components/Hero';
 import Products from '@/components/Products';
 import ContactForm from '@/components/ContactForm';
 import Features from '@/components/Features';
-import Faq from '@/components/Faq';  // Importar el componente de FAQ
+import Faq from '@/components/Faq';
 
 export default function Home() {
   return (
@@ -15,7 +17,7 @@ export default function Home() {
         <Products />
       </section>
       <section id="faq">
-        <Faq />  {/* Nueva sección de preguntas frecuentes */}
+        <Faq />
       </section>
       <section id="contacto">
         <ContactForm />
