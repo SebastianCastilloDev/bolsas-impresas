@@ -24,6 +24,10 @@ export default function ProductDetails({ params }) {
         }
     }, [id]);
 
+    const handlePurchaseClick = () => {
+        alert(`Has seleccionado la bolsa: ${product.name}`)
+    }
+
     if (!product) return <p>Cargando...</p>;
 
     return (
@@ -60,6 +64,13 @@ export default function ProductDetails({ params }) {
                             ))}
                         </tbody>
                     </table>
+
+                    <button
+                        onClick={handlePurchaseClick}
+                        className='bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-lg mt-6'
+                    >
+                        Quiero esta bolsa
+                    </button>
                 </div>
             </div>
         </div>

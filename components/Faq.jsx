@@ -20,6 +20,15 @@ const faqs = [
         question: "¿Tienen descuentos por pedidos grandes?",
         answer: "Sí, ofrecemos descuentos por pedidos al por mayor. Contáctanos para recibir una cotización personalizada.",
     },
+    // Nueva pregunta sobre el procedimiento
+    {
+        question: "¿Cuál es el procedimiento para realizar un pedido?",
+        answer: `
+            1.- Nos envía sus requerimientos.\n
+            2.- Confeccionamos un diseño, hasta que quede conforme.\n
+            3.- Solicitamos un abono.\n
+            4.- Puede retirar su pedido en Pasaje Las Papayas 5330, Macul, o solicitar envío por delivery, Starken o Chilexpress.`,
+    },
 ];
 
 export default function Faq() {
@@ -46,10 +55,10 @@ export default function Faq() {
                                 </span>
                             </button>
                             <div
-                                className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index ? 'max-h-40' : 'max-h-0'
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index ? 'max-h-80' : 'max-h-0'
                                     }`}
                             >
-                                <p className="mt-2 text-gray-600">
+                                <p className="mt-2 text-gray-600 leading-tight whitespace-pre-line">
                                     {faq.answer}
                                 </p>
                             </div>

@@ -2,13 +2,18 @@
 
 1. app/layout.jsx
 2. app/page.jsx
-3. components/ContactForm.jsx
-4. components/Footer.jsx
-5. components/Hero.jsx
-6. components/Hero.module.css
-7. components/Navbar.jsx
-8. components/Products.jsx
-9. package.json
+3. app/products/[id]/page.jsx
+4. components/ContactForm.jsx
+5. components/Faq.jsx
+6. components/Features.jsx
+7. components/Footer.jsx
+8. components/Hero.jsx
+9. components/Hero.module.css
+10. components/Navbar.jsx
+11. components/Products.jsx
+12. package.json
+13. public/data/products.json
+14. public/products.json
 
 
 
@@ -41,22 +46,114 @@ export default function RootLayout({ children }) {
 
 // ----- app/page.jsx -----
 
+"use_client"
+
 import Hero from '@/components/Hero';
 import Products from '@/components/Products';
 import ContactForm from '@/components/ContactForm';
+import Features from '@/components/Features';
+import Faq from '@/components/Faq';
 
 export default function Home() {
   return (
     <div>
       <Hero />
+      <section id="features">
+        <Features />
+      </section>
       <section id="productos">
         <Products />
+      </section>
+      <section id="faq">
+        <Faq />
       </section>
       <section id="contacto">
         <ContactForm />
       </section>
     </div>
   );
+}
+
+
+// ----- app/products/[id]/page.jsx -----
+
+"use client";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+
+// Simulación de los datos del JSON
+const fetchProducts = async () => {
+    const res = await fetch('/data/products.json');
+    const data = await res.json();
+    return data;
+};
+
+export default function ProductDetails({ params }) {
+    const [product, setProduct] = useState(null);
+    const { id } = params;
+
+    useEffect(() => {
+        const getProduct = async () => {
+            const products = await fetchProducts();
+            const product = products.find((p) => p.id === parseInt(id));
+            setProduct(product);
+        };
+        if (id) {
+            getProduct();
+        }
+    }, [id]);
+
+    const handlePurchaseClick = () => {
+        alert(`Has seleccionado la bolsa: ${product.name}`)
+    }
+
+    if (!product) return <p>Cargando...</p>;
+
+    return (
+        <div className="container mx-auto py-8 px-4">
+            <div className="flex flex-col items-center md:flex-row md:space-x-8">
+                {/* Imagen del Producto */}
+                <div className="w-full md:w-1/2">
+                    <Image src={product.image} alt={product.name} width={500} height={500} className="rounded-lg shadow-lg" />
+                </div>
+
+                {/* Detalles del Producto */}
+                <div className="w-full md:w-1/2">
+                    <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+                    <p className="text-lg mb-6">{product.description}</p>
+
+                    {/* Colores Disponibles */}
+                    <h3 className="text-2xl font-semibold mb-4">Colores Disponibles</h3>
+                    <p className="mb-6">{product.colors.join(', ')}</p>
+
+                    {/* Tabla de Precios y Tamaños */}
+                    <table className="w-full table-auto border-collapse">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                <th className="border px-4 py-2 text-left">Tamaño</th>
+                                <th className="border px-4 py-2 text-left">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {product.sizes.map((size, index) => (
+                                <tr key={index} className="hover:bg-gray-100">
+                                    <td className="border px-4 py-2">{size.size}</td>
+                                    <td className="border px-4 py-2">{size.price}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <button
+                        onClick={handlePurchaseClick}
+                        className='bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-lg mt-6'
+                    >
+                        Quiero esta bolsa
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 
@@ -74,6 +171,130 @@ export default function ContactForm() {
                         <textarea placeholder="Mensaje" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
                         <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">Enviar</button>
                     </form>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+
+// ----- components/Faq.jsx -----
+
+"use client"; // Indica que este es un componente cliente
+
+import { useState } from 'react';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+
+const faqs = [
+    {
+        question: "¿Cuánto tiempo tarda en producirse mi pedido?",
+        answer: "El tiempo de producción varía según la cantidad y el tipo de bolsa. Generalmente, el tiempo de producción es de entre 7 y 10 días hábiles.",
+    },
+    {
+        question: "¿Puedo personalizar las bolsas con mi logotipo?",
+        answer: "Sí, ofrecemos la posibilidad de personalizar las bolsas con tu logotipo o imagen corporativa. Puedes enviarnos tu diseño y nosotros nos encargaremos del resto.",
+    },
+    {
+        question: "¿Qué tipos de materiales utilizan?",
+        answer: "Ofrecemos bolsas de papel reciclable, algodón y plástico, todas disponibles en diferentes tamaños y estilos.",
+    },
+    {
+        question: "¿Tienen descuentos por pedidos grandes?",
+        answer: "Sí, ofrecemos descuentos por pedidos al por mayor. Contáctanos para recibir una cotización personalizada.",
+    },
+    // Nueva pregunta sobre el procedimiento
+    {
+        question: "¿Cuál es el procedimiento para realizar un pedido?",
+        answer: `
+            1.- Nos envía sus requerimientos.\n
+            2.- Confeccionamos un diseño, hasta que quede conforme.\n
+            3.- Solicitamos un abono.\n
+            4.- Puede retirar su pedido en Pasaje Las Papayas 5330, Macul, o solicitar envío por delivery, Starken o Chilexpress.`,
+    },
+];
+
+export default function Faq() {
+    const [activeIndex, setActiveIndex] = useState(null);
+
+    const toggleFaq = (index) => {
+        setActiveIndex(activeIndex === index ? null : index);
+    };
+
+    return (
+        <section className="py-16 bg-gray-100">
+            <div className="container mx-auto px-4">
+                <h2 className="text-center text-3xl font-bold mb-8">Preguntas Frecuentes</h2>
+                <div className="max-w-2xl mx-auto space-y-4">
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="border-b-2 border-gray-300 pb-4">
+                            <button
+                                onClick={() => toggleFaq(index)}
+                                className="w-full flex justify-between items-center text-left text-xl font-semibold focus:outline-none py-3"
+                            >
+                                <span>{faq.question}</span>
+                                <span className="ml-2">
+                                    {activeIndex === index ? <FiChevronUp /> : <FiChevronDown />}
+                                </span>
+                            </button>
+                            <div
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index ? 'max-h-80' : 'max-h-0'
+                                    }`}
+                            >
+                                <p className="mt-2 text-gray-600 leading-tight whitespace-pre-line">
+                                    {faq.answer}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+
+// ----- components/Features.jsx -----
+
+export default function Features() {
+    const features = [
+        {
+            id: 1,
+            title: "Ecológicas",
+            description: "Nuestras bolsas están hechas de materiales reciclables y respetuosos con el medio ambiente.",
+            icon: "🌿",
+        },
+        {
+            id: 2,
+            title: "Personalizables",
+            description: "Diseña tus bolsas con tu logotipo o imagen corporativa para una máxima personalización.",
+            icon: "🎨",
+        },
+        {
+            id: 3,
+            title: "Alta Durabilidad",
+            description: "Fabricadas con materiales de alta calidad, nuestras bolsas están hechas para durar.",
+            icon: "🛠️",
+        },
+        {
+            id: 4,
+            title: "Variedad de Materiales",
+            description: "Ofrecemos bolsas de papel, algodón y plástico en diferentes tamaños y estilos.",
+            icon: "🛍️",
+        },
+    ];
+
+    return (
+        <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+                <h2 className="text-center text-3xl font-bold mb-8">¿Por qué elegir nuestras bolsas?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {features.map((feature) => (
+                        <div key={feature.id} className="bg-gray-100 p-6 rounded-lg shadow-lg text-center">
+                            <div className="text-5xl mb-4">{feature.icon}</div>
+                            <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                            <p className="text-gray-600">{feature.description}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
@@ -201,7 +422,7 @@ export default function Hero() {
 
 // ----- components/Navbar.jsx -----
 
-"use client"; // Indica que este es un Client Component
+"use client";
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -273,15 +494,29 @@ export default function Navbar() {
 
 // ----- components/Products.jsx -----
 
-import Image from 'next/image';
+"use client"
 
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useEffect } from 'react'
+
+
+const fetchProducts = async () => {
+    const res = await fetch('/data/products.json');
+    const data = await res.json();
+    return data;
+}
 
 export default function Products() {
-    const products = [
-        { id: 1, name: 'Bolsa de Papel', description: 'Bolsas ecológicas y reciclables.', image: '/images/bolsaPapel.jpg' },
-        { id: 2, name: 'Bolsa de Algodón', description: 'Resistentes y reutilizables.', image: '/images/bolsaAlgodon.jpg' },
-        { id: 3, name: 'Bolsa de Plástico', description: 'Duraderas y personalizables.', image: '/images/bolsaPlastico.jpg' },
-    ];
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const getProducts = async () => {
+            const products = await fetchProducts();
+            setProducts(products);
+        };
+        getProducts();
+    }, []);
 
     return (
         <section className="py-16 bg-gray-100">
@@ -290,15 +525,12 @@ export default function Products() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {products.map(product => (
                         <div key={product.id} className="bg-white rounded-lg shadow-lg p-6">
-                            <Image
-                                src={product.image}
-                                alt={product.name}
-                                width={500}
-                                height={500}
-                                className="rounded-lg"
-                            />
+                            <Image src={product.image} alt={product.name} width={500} height={500} className="rounded-lg" />
                             <h3 className="text-xl font-semibold mt-4">{product.name}</h3>
                             <p className="mt-2 text-gray-600">{product.description}</p>
+                            <Link href={`/products/${product.id}`} className="text-blue-500 hover:underline mt-4 block">
+                                Ver más
+                            </Link>
                         </div>
                     ))}
                 </div>
@@ -321,16 +553,92 @@ export default function Products() {
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "13.5.7",
     "react": "^18",
     "react-dom": "^18",
-    "next": "13.5.7"
+    "react-icons": "^5.3.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3",
     "eslint": "^8",
-    "eslint-config-next": "13.5.7"
+    "eslint-config-next": "13.5.7",
+    "postcss": "^8",
+    "tailwindcss": "^3"
   }
 }
 
+
+// ----- public/data/products.json -----
+
+[
+    {
+      "id": 1,
+      "name": "Bolsa de Papel",
+      "description": "Bolsas ecológicas y reciclables.",
+      "image": "/images/bolsaPapel.jpg",
+      "colors": ["Blanco", "Marrón", "Verde"],
+      "sizes": [
+        {
+          "size": "Pequeña",
+          "price": "$5.00"
+        },
+        {
+          "size": "Mediana",
+          "price": "$7.50"
+        },
+        {
+          "size": "Grande",
+          "price": "$10.00"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bolsa de Algodón",
+      "description": "Resistentes y reutilizables.",
+      "image": "/images/bolsaAlgodon.jpg",
+      "colors": ["Blanco", "Beige", "Negro"],
+      "sizes": [
+        {
+          "size": "Pequeña",
+          "price": "$6.00"
+        },
+        {
+          "size": "Mediana",
+          "price": "$9.00"
+        },
+        {
+          "size": "Grande",
+          "price": "$12.50"
+        }
+      ]
+    }
+  ]
+  
+
+// ----- public/products.json -----
+
+[
+    {
+      "id": 1,
+      "name": "Bolsa de Papel",
+      "description": "Bolsas ecológicas y reciclables.",
+      "price": 5000,
+      "image": "/images/bolsaPapel.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Bolsa de Algodón",
+      "description": "Resistentes y reutilizables.",
+      "price": 8000,
+      "image": "/images/bolsaAlgodon.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Bolsa de Plástico",
+      "description": "Duraderas y personalizables.",
+      "price": 3000,
+      "image": "/images/bolsaPlastico.jpg"
+    }
+  ]
+  
