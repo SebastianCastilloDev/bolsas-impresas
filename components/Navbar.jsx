@@ -1,4 +1,4 @@
-"use client"; // Indica que este es un Client Component
+"use client";
 
 import { useState } from 'react';
 import Link from 'next/link';

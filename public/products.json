@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "name": "Bolsa de Papel",
+      "description": "Bolsas ecológicas y reciclables.",
+      "price": 5000,
+      "image": "/images/bolsaPapel.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Bolsa de Algodón",
+      "description": "Resistentes y reutilizables.",
+      "price": 8000,
+      "image": "/images/bolsaAlgodon.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Bolsa de Plástico",
+      "description": "Duraderas y personalizables.",
+      "price": 3000,
+      "image": "/images/bolsaPlastico.jpg"
+    }
+  ]
+  

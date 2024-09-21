@@ -1,0 +1,45 @@
+[
+    {
+      "id": 1,
+      "name": "Bolsa de Papel",
+      "description": "Bolsas ecológicas y reciclables.",
+      "image": "/images/bolsaPapel.jpg",
+      "colors": ["Blanco", "Marrón", "Verde"],
+      "sizes": [
+        {
+          "size": "Pequeña",
+          "price": "$5.00"
+        },
+        {
+          "size": "Mediana",
+          "price": "$7.50"
+        },
+        {
+          "size": "Grande",
+          "price": "$10.00"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bolsa de Algodón",
+      "description": "Resistentes y reutilizables.",
+      "image": "/images/bolsaAlgodon.jpg",
+      "colors": ["Blanco", "Beige", "Negro"],
+      "sizes": [
+        {
+          "size": "Pequeña",
+          "price": "$6.00"
+        },
+        {
+          "size": "Mediana",
+          "price": "$9.00"
+        },
+        {
+          "size": "Grande",
+          "price": "$12.50"
+        }
+      ]
+    }
+  ]
+  

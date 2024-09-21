@@ -1,6 +1,7 @@
-"use client"
+"use client"; // Indica que este es un componente cliente
 
 import { useState } from 'react';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
 const faqs = [
     {
@@ -32,18 +33,26 @@ export default function Faq() {
         <section className="py-16 bg-gray-100">
             <div className="container mx-auto px-4">
                 <h2 className="text-center text-3xl font-bold mb-8">Preguntas Frecuentes</h2>
-                <div className="max-w-2xl mx-auto">
+                <div className="max-w-2xl mx-auto space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="mb-4 border-b-2 border-gray-300 pb-4">
+                        <div key={index} className="border-b-2 border-gray-300 pb-4">
                             <button
                                 onClick={() => toggleFaq(index)}
-                                className="w-full text-left text-xl font-semibold focus:outline-none"
+                                className="w-full flex justify-between items-center text-left text-xl font-semibold focus:outline-none py-3"
                             >
-                                {faq.question}
+                                <span>{faq.question}</span>
+                                <span className="ml-2">
+                                    {activeIndex === index ? <FiChevronUp /> : <FiChevronDown />}
+                                </span>
                             </button>
-                            {activeIndex === index && (
-                                <p className="mt-2 text-gray-600">{faq.answer}</p>
-                            )}
+                            <div
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index ? 'max-h-40' : 'max-h-0'
+                                    }`}
+                            >
+                                <p className="mt-2 text-gray-600">
+                                    {faq.answer}
+                                </p>
+                            </div>
                         </div>
                     ))}
                 </div>
