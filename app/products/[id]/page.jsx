@@ -24,9 +24,12 @@ export default function ProductDetails({ params }) {
         }
     }, [id]);
 
+    // Función para manejar el click en el botón de compra
     const handlePurchaseClick = () => {
-        alert(`Has seleccionado la bolsa: ${product.name}`)
-    }
+        const message = `Hola, me interesa la bolsa ${product.name} en alguno de los siguientes tamaños: ${product.sizes.map(size => size.size).join(', ')}.`;
+        const whatsappUrl = `https://wa.me/56955242398?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    };
 
     if (!product) return <p>Cargando...</p>;
 
@@ -67,7 +70,7 @@ export default function ProductDetails({ params }) {
 
                     <button
                         onClick={handlePurchaseClick}
-                        className='bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-lg mt-6'
+                        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-lg mt-6"
                     >
                         Quiero esta bolsa
                     </button>
