@@ -8,16 +8,15 @@ const COSTOS = {
     impresionPorBolsa: 10, // CLP
     secadoPorBolsa: 5, // CLP
     embalajePorBolsa: 5, // CLP
-    bolsa: {
-        papel: 20,
-        tnt: 25,
-        plastico: 30,
-        genero: 40
-    }
 };
 
-// Cantidad de bolsas a producir
-const CANTIDAD_BOLSAS = [30,50,100,150,200];
+// Definición de tipos de bolsa
+const TIPOS_BOLSA = {
+    papel: 20,
+    tnt: 25,
+    plastico: 30,
+    genero: 40
+};
 
 // Funciones de cálculo
 function calcularCostoFijo() {
@@ -26,21 +25,13 @@ function calcularCostoFijo() {
 }
 
 function calcularCostoVariable(cantidadBolsas, tipoBolsa) {
-    const { tinta, impresionPorBolsa, secadoPorBolsa, embalajePorBolsa, bolsa } = COSTOS;
-    return tinta + (impresionPorBolsa + secadoPorBolsa + embalajePorBolsa + bolsa[tipoBolsa]) * cantidadBolsas;
+    const { tinta, impresionPorBolsa, secadoPorBolsa, embalajePorBolsa } = COSTOS;
+    return tinta + (impresionPorBolsa + secadoPorBolsa + embalajePorBolsa + TIPOS_BOLSA[tipoBolsa]) * cantidadBolsas;
 }
 
+// Cambia exportación a require
 function calcularCostoTotal(cantidadBolsas, tipoBolsa) {
     return calcularCostoFijo() + calcularCostoVariable(cantidadBolsas, tipoBolsa);
 }
 
-function generarListaPrecios(tipoBolsa) {
-    return CANTIDAD_BOLSAS.map(cantidad => ({
-        cantidadBolsas: cantidad,
-        costoTotal: calcularCostoTotal(cantidad, tipoBolsa)
-    }));
-}
-
-// Ejemplo de uso
-const listaPrecios = generarListaPrecios('papel');
-console.log(listaPrecios);
+module.exports = { calcularCostoTotal }; // Exporta la función
