@@ -17,6 +17,9 @@ const config = {
         'extraer_archivos.js',
         'globals.css',
         'next.config.js',
+        'modelo_abc.js',
+        'modelo_costos.js',
+        'Calcular_Costo.js'
     ] // Archivos a ignorar
 };
 

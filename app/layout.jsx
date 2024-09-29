@@ -6,9 +6,23 @@ import Footer from '@/components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Bolsas impresas',
-  description: 'Bolsas impresas personalizadas para tu negocio',
-}
+  title: 'Bolsas impresas personalizadas - Calidad y sostenibilidad',
+  description: 'Compra bolsas personalizadas y ecológicas para tu negocio con nosotros.',
+  openGraph: {
+    type: 'website',
+    url: 'https://tusitioweb.com',
+    title: 'Bolsas impresas personalizadas',
+    description: 'Compra bolsas personalizadas y ecológicas para tu negocio con nosotros.',
+    images: [
+      {
+        url: '/images/hero.jpg',
+        width: 800,
+        height: 600,
+        alt: 'Bolsas personalizadas',
+      },
+    ],
+  },
+};
 
 export default function RootLayout({ children }) {
   return (

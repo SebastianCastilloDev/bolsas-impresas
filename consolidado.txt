@@ -1,22 +1,48 @@
 ÍNDICE DE ARCHIVOS:
 
-1. app/layout.jsx
-2. app/page.jsx
-3. app/products/[id]/page.jsx
-4. components/ContactForm.jsx
-5. components/Faq.jsx
-6. components/Features.jsx
-7. components/Footer.jsx
-8. components/Hero.jsx
-9. components/Hero.module.css
-10. components/Navbar.jsx
-11. components/Products.jsx
-12. modelo_abc.js
-13. modelo_costos.js
-14. package.json
-15. public/data/products.json
-16. public/products.json
+1. CalcularCosto.js
+2. app/layout.jsx
+3. app/page.jsx
+4. app/products/[id]/page.jsx
+5. components/ContactForm.jsx
+6. components/Faq.jsx
+7. components/Features.jsx
+8. components/Footer.jsx
+9. components/Hero.jsx
+10. components/Hero.module.css
+11. components/Navbar.jsx
+12. components/Products.jsx
+13. package.json
+14. public/data/products.json
+15. public/products.json
 
+
+
+// ----- CalcularCosto.js -----
+
+// CalcularCosto.js
+const { calcularCostoTotal } = require('./modelo_abc.js');
+
+// Ejemplo de uso
+const cantidadBolsas = 100; // Cambia según la cantidad deseada
+const tipoBolsa = 'papel'; // Cambia según el tipo de bolsa
+
+const costoTotal = calcularCostoTotal(cantidadBolsas, tipoBolsa);
+console.log(`El costo total para ${cantidadBolsas} bolsas de tipo ${tipoBolsa} es: ${costoTotal} CLP`);
+
+// Ejemplo de uso: generar lista de precios
+const tiposBolsas = ['papel', 'tnt', 'plastico', 'genero']; // Tipos de bolsas
+const cantidades = [50, 100, 200, 500]; // Cantidades de bolsas
+
+// Generar lista de precios
+tiposBolsas.forEach(tipoBolsa => {
+    console.log(`Precios para bolsas de tipo ${tipoBolsa}:`);
+    cantidades.forEach(cantidadBolsas => {
+        const costoTotal = calcularCostoTotal(cantidadBolsas, tipoBolsa);
+        console.log(`  - ${cantidadBolsas} bolsas: ${costoTotal} CLP`);
+    });
+    console.log('--------------------------');
+});
 
 
 // ----- app/layout.jsx -----
@@ -29,9 +55,23 @@ import Footer from '@/components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Bolsas impresas',
-  description: 'Bolsas impresas personalizadas para tu negocio',
-}
+  title: 'Bolsas impresas personalizadas - Calidad y sostenibilidad',
+  description: 'Compra bolsas personalizadas y ecológicas para tu negocio con nosotros.',
+  openGraph: {
+    type: 'website',
+    url: 'https://tusitioweb.com',
+    title: 'Bolsas impresas personalizadas',
+    description: 'Compra bolsas personalizadas y ecológicas para tu negocio con nosotros.',
+    images: [
+      {
+        url: '/images/hero.jpg',
+        width: 800,
+        height: 600,
+        alt: 'Bolsas personalizadas',
+      },
+    ],
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -164,22 +204,52 @@ export default function ProductDetails({ params }) {
 
 // ----- components/ContactForm.jsx -----
 
+import { useState } from 'react';
+
 export default function ContactForm() {
-    return (
-        <section className="py-16 bg-blue-50">
-            <div className="container mx-auto px-4">
-                <h2 className="text-center text-3xl font-bold mb-8">Contáctanos</h2>
-                <div className="max-w-xl mx-auto">
-                    <form className="space-y-4">
-                        <input type="text" placeholder="Nombre" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
-                        <input type="email" placeholder="Correo" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" />
-                        <textarea placeholder="Mensaje" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
-                        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">Enviar</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    );
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Validación aquí
+    setSuccessMessage('¡Tu mensaje ha sido enviado con éxito!');
+  };
+
+  return (
+    <section className="py-16 bg-blue-50">
+      <div className="container mx-auto px-4">
+        <h2 className="text-center text-3xl font-bold mb-8">Contáctanos</h2>
+        {successMessage && <p className="text-center text-green-500">{successMessage}</p>}
+        <div className="max-w-xl mx-auto">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Nombre"
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            />
+            <input
+              type="email"
+              placeholder="Correo"
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            />
+            <textarea
+              placeholder="Mensaje"
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            ></textarea>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg"
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 
@@ -543,174 +613,6 @@ export default function Products() {
         </section>
     );
 }
-
-
-// ----- modelo_abc.js -----
-
-// Definición de costos constantes
-const COSTOS = {
-    diseno: 5000, // CLP
-    vellum: 3000, // CLP
-    revelado: 2000, // CLP
-    malla: 500, // CLP
-    tinta: 1100, // CLP (0.1 kg para 100 bolsas)
-    impresionPorBolsa: 10, // CLP
-    secadoPorBolsa: 5, // CLP
-    embalajePorBolsa: 5, // CLP
-    bolsa: {
-        papel: 20,
-        tnt: 25,
-        plastico: 30,
-        genero: 40
-    }
-};
-
-// Cantidad de bolsas a producir
-const CANTIDAD_BOLSAS = [30,50,100,150,200];
-
-// Funciones de cálculo
-function calcularCostoFijo() {
-    const { diseno, vellum, revelado, malla } = COSTOS;
-    return diseno + vellum + revelado + malla;
-}
-
-function calcularCostoVariable(cantidadBolsas, tipoBolsa) {
-    const { tinta, impresionPorBolsa, secadoPorBolsa, embalajePorBolsa, bolsa } = COSTOS;
-    return tinta + (impresionPorBolsa + secadoPorBolsa + embalajePorBolsa + bolsa[tipoBolsa]) * cantidadBolsas;
-}
-
-function calcularCostoTotal(cantidadBolsas, tipoBolsa) {
-    return calcularCostoFijo() + calcularCostoVariable(cantidadBolsas, tipoBolsa);
-}
-
-function generarListaPrecios(tipoBolsa) {
-    return CANTIDAD_BOLSAS.map(cantidad => ({
-        cantidadBolsas: cantidad,
-        costoTotal: calcularCostoTotal(cantidad, tipoBolsa)
-    }));
-}
-
-// Ejemplo de uso
-const listaPrecios = generarListaPrecios('papel');
-console.log(listaPrecios);
-
-// ----- modelo_costos.js -----
-
-class Bolsa {
-    constructor(material, tamaño, costoUnitario) {
-        this.material = material;
-        this.tamaño = tamaño;
-        this.costoUnitario = costoUnitario;
-    }
-}
-
-class Pedido {
-    constructor(bolsa, cantidad, numeroColores, costoDiseño) {
-        this.bolsa = bolsa;
-        this.cantidad = cantidad;
-        this.numeroColores = numeroColores;
-        this.costoDiseño = costoDiseño;
-    }
-}
-
-class CalculadoraDeCostos {
-  /**
-   * @param {Pedido} pedido - Instancia de la clase Pedido
-   * @param {Object} datosBasicos - Objeto con los factores de costo detallados
-   */
-  constructor(pedido, datosBasicos) {
-    this.pedido = pedido;
-    this.datosBasicos = datosBasicos;
-  }
-
-  // Método para calcular el costo total de las bolsas
-  calcularCostoBolsas() {
-    return this.pedido.bolsa.costoUnitario * this.pedido.cantidad;
-  }
-
-  // Método para calcular el costo de tinta
-  calcularCostoTinta() {
-    const { valorTarroTinta, rendimientoTarroTinta } = this.datosBasicos;
-    const costoTintaPorBolsa = valorTarroTinta / rendimientoTarroTinta;
-    return costoTintaPorBolsa * this.pedido.numeroColores * this.pedido.cantidad;
-  }
-
-  // Método para calcular el costo de mano de obra
-  calcularCostoManoDeObra() {
-    const { costoManoDeObraPorHora, tiempoImpresionPorBolsaMin, tiempoPreparacionMin } = this.datosBasicos;
-    const tiempoTotalMin = (tiempoImpresionPorBolsaMin * this.pedido.cantidad) + tiempoPreparacionMin;
-    const tiempoTotalHoras = tiempoTotalMin / 60;
-    return tiempoTotalHoras * costoManoDeObraPorHora;
-  }
-
-  // Método para calcular el costo de secado
-  calcularCostoSecado() {
-    const { costoEnergiaPorHora, tiempoSecadoPorBolsaMin } = this.datosBasicos;
-    const tiempoTotalSecadoMin = tiempoSecadoPorBolsaMin * this.pedido.cantidad;
-    const tiempoTotalSecadoHoras = tiempoTotalSecadoMin / 60;
-    return tiempoTotalSecadoHoras * costoEnergiaPorHora;
-  }
-
-  // Método para calcular los gastos generales
-  calcularGastosGenerales() {
-    const { gastosGeneralesMensuales, produccionMensualEstimada } = this.datosBasicos;
-    const gastosGeneralesPorBolsa = gastosGeneralesMensuales / produccionMensualEstimada;
-    return gastosGeneralesPorBolsa * this.pedido.cantidad;
-  }
-
-  // Método para calcular el costo total
-  calcularCostoTotal() {
-    return (
-      this.calcularCostoBolsas() +
-      this.pedido.costoDiseño +
-      this.calcularCostoTinta() +
-      this.calcularCostoManoDeObra() +
-      this.calcularCostoSecado() +
-      this.calcularGastosGenerales()
-    );
-  }
-
-  // Método para calcular el precio de venta
-  calcularPrecioVenta(margenBeneficio) {
-    const costoTotal = this.calcularCostoTotal();
-    return costoTotal * (1 + margenBeneficio / 100);
-  }
-}
-
-
-// Datos básicos
-const datosBasicos = {
-  valorTarroTinta: 50.00,              // Costo de un tarro de tinta
-  rendimientoTarroTinta: 1000,         // Número de bolsas por tarro de tinta
-  costoManoDeObraPorHora: 20.00,       // Costo de mano de obra por hora
-  tiempoImpresionPorBolsaMin: 0.5,     // Tiempo de impresión por bolsa en minutos
-  tiempoPreparacionMin: 15,            // Tiempo de preparación en minutos
-  costoEnergiaPorHora: 5.00,           // Costo de energía por hora
-  tiempoSecadoPorBolsaMin: 2,          // Tiempo de secado por bolsa en minutos
-  gastosGeneralesMensuales: 2000.00,   // Gastos generales mensuales
-  produccionMensualEstimada: 5000      // Producción mensual estimada de bolsas
-};
-
-  
-// Crear una instancia de Bolsa
-const bolsa = new Bolsa('algodón', { ancho: 30, alto: 40 }, 1.00);
-
-// Crear una instancia de Pedido
-const pedido = new Pedido(bolsa, 100, 2, 20.00); // 100 bolsas, 2 colores, costo de diseño $20
-
-// Crear una instancia de CalculadoraDeCostos con datosBasicos
-const calculadora = new CalculadoraDeCostos(pedido, datosBasicos);
-
-// Calcular el costo total
-const costoTotal = calculadora.calcularCostoTotal();
-
-// Calcular el precio de venta con un margen de beneficio del 30%
-const precioVenta = calculadora.calcularPrecioVenta(30);
-
-// Mostrar los resultados
-console.log(`Costo Total de Producción: $${costoTotal.toFixed(2)}`);
-console.log(`Precio Total de Venta: $${precioVenta.toFixed(2)}`);
-console.log(`Precio por Bolsa: $${(precioVenta / pedido.cantidad).toFixed(2)}`);
 
 
 // ----- package.json -----
